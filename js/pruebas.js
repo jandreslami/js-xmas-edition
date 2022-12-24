@@ -12,23 +12,4 @@ function probarValidarNombre() {
   );
 }
 
-
-function probarValidarCiudad (){
-    console.assert(validarCiudad("") === "Tenés que seleccionar alguna ciudad", 
-
-        "ValidarCiudad no valida que el usuario haya seleccionado alguna ciudad")
-
-}
-
-function probarValidarDescripcionRegalo () {
-    console.assert(
-        validarDescripcionRegalo("235555555555555555555555555523555555555555555555555") ===
-        "La descripción del regalo puede tener como máximo 50 caracteres" ,
-
-        "validarDescripcionRegalo no validó que la descripción tenga un máximo de 50 caracteres"
-
-    )
-}
-
-probarValidarCiudad ();
-probarValidarDescripcionRegalo ();
+probarValidarNombre();
