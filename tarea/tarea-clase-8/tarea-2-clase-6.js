@@ -58,6 +58,10 @@ $botonCalcular.onclick = function () {
 
     $inputsSalariosAnuales = document.querySelectorAll("input.visible")
 
+    if(document.querySelector("#error")){
+        document.querySelector("#error").remove();
+    }
+    
     for (let i=0 ; i < $inputsSalariosAnuales.length; i++ ) {
 
         if(($inputsSalariosAnuales[i].value) != 0){
@@ -66,14 +70,27 @@ $botonCalcular.onclick = function () {
 
             arraySalariosAnuales.push(acumulador);
         } 
+
+        if (($inputsSalariosAnuales[i].value) == 0){
+
+            let $mensajeError = document.createElement("label")
+            $mensajeError.id ="error";
+
+            $mensajeError.textContent = "No se puede ingresar valores en cero"
+            $formulario.appendChild($mensajeError)
+            break;
+        }
+
+
     }
 
-
+    if(!document.querySelector("#error")){
+    
     $textoMayorSalario.textContent = `La persona que mejor salario tiene gana ${calcularMayorNumero (arraySalariosAnuales)} por año`
     $textoMenorSalario.textContent = `La persona que peor salario tiene gana ${calcularMenorNumero (arraySalariosAnuales)} por año`
     $textoPromedioSalarioAnual.textContent = `En promedio cada integrante gana ${calcularPromedio (arraySalariosAnuales)} por año`
     $textoPromedioSalarioMensual.textContent = `En promedio cada integrante gana ${calcularPromedio (arraySalariosAnuales)/12} por mes`
-
+    }
     return false
 }
 
