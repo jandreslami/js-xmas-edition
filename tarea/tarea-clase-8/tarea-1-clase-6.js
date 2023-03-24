@@ -14,12 +14,15 @@ const $formulario = document.querySelector("form")
 
 for (let i=1; i<=personasEnGrupoFamiliar; i++ ) {
     let $etiqueta = document.createElement("label")
-    $etiqueta.textContent = `Ingresar edad de persona N°${i}`
+    $etiqueta.textContent = `Edad de persona N°${i}`
+    $etiqueta.classList.add("form-label")
 
     $formulario.appendChild($etiqueta)
 
     let $input = document.createElement("input")
     $input.id = `input${i}`
+    $input.classList.add("m-2", "form-control-sm")
+    $input.setAttribute("type","number")
     $formulario.appendChild ($input)
     
 
@@ -29,6 +32,7 @@ for (let i=1; i<=personasEnGrupoFamiliar; i++ ) {
 
 $botonCalcular = document.createElement("button")
 $botonCalcular.textContent = "Calcular"
+$botonCalcular.classList.add("btn", "btn-primary", "m-2")
 
 $formulario.appendChild($botonCalcular)
 
@@ -36,6 +40,7 @@ $botonReset = document.createElement("button")
 $botonReset.type = "reset"
 $botonReset.id = "reset"
 $botonReset.textContent ="Limpiar formulario"
+$botonReset.classList.add("btn", "btn-secondary")
 
 $formulario.appendChild($botonReset) 
 
@@ -77,19 +82,20 @@ function manejarErrores (errores){
 
         borrarCalculosAnteriores();
         
-        $textoError = document.createElement("p")
+        $textoError = document.createElement("div")
         $textoError.textContent = errores
-
+        $textoError.classList.add("alert", "alert-danger")
+        $textoError.id = "error"
 
         $formulario.appendChild($textoError)
         
     }
-    event.preventDefault()
+   
 }
 
 function borrarCalculosAnteriores(){
 
-    let $calculos = document.querySelectorAll("p")
+    let $calculos = document.querySelectorAll(".alert")
 
     for (i=0; i<$calculos.length; i++){
         $calculos[i].remove()
@@ -99,17 +105,20 @@ function borrarCalculosAnteriores(){
 
 function mostrarCalculos(arrayEdades){
 
-    $textoPromedio = document.createElement("p")
+    $textoPromedio = document.createElement("div")
+    $textoPromedio.classList.add("alert", "alert-secondary")
     $textoPromedio.textContent = `El promedio de edades ingresadas es de ${calcularPromedio(arrayEdades)}`
 
     $formulario.appendChild($textoPromedio)
 
-    $textoMayor = document.createElement("p")
+    $textoMayor = document.createElement("div")
+    $textoMayor.classList.add("alert", "alert-secondary")
     $textoMayor.textContent = `El integrante del grupo familiar más grande tiene ${calcularMayorNumero(arrayEdades)}`
 
     $formulario.appendChild($textoMayor)
 
-    $textoMenor = document.createElement("p")
+    $textoMenor = document.createElement("div")
+    $textoMenor.classList.add("alert", "alert-secondary")
     $textoMenor.textContent = `El integrante del grupo familiar más chico tiene ${calcularMenorNumero(arrayEdades)}`
 
     $formulario.appendChild($textoMenor)
