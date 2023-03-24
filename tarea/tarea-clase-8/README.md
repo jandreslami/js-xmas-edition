@@ -6,4 +6,4 @@ Ver `tarea\tarea-clase-8\index-tarea-1-clase-6.html`
 
 Preview:
 
-![preview](.\tarea-1-img.png)
+![preview](tarea-1-img.png)
