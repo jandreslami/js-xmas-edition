@@ -12,14 +12,14 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 let $formulario = document.querySelector("form");
 
 let $botonAgregar = document.querySelector("#agregar");
-let $botonQuitar = document.querySelector("#quitar"); 
-let $botonCalcular = document.querySelector("#calcular"); 
+let $botonQuitar = document.querySelector("#quitar");
+let $botonCalcular = document.querySelector("#calcular");
 
 $botonAgregar.onclick = function () {
     let $etiquetaCampo = document.createElement("label")
     $etiquetaCampo.textContent = "Ingresar salario anual de un integrante familiar"
     $etiquetaCampo.className = "visible";
-   
+
     $formulario.appendChild($etiquetaCampo);
 
     let $nuevoCampo = document.createElement("input")
@@ -27,21 +27,25 @@ $botonAgregar.onclick = function () {
 
     $formulario.appendChild($nuevoCampo);
 
-    
+    quitarError();
+    quitarCalculos();
+
     $formulario.appendChild(document.createElement("p"));
-    
+
 
     return false
 }
 
-$botonQuitar.onclick = function() {
-    
-    document.querySelector(".visible").className = "invisible";
-    document.querySelector(".visible").className = "invisible";
+$botonQuitar.onclick = function () {
 
+    quitarError();
+    quitarCalculos();
+
+    document.querySelector(".visible").remove();
+    document.querySelector(".visible").remove();
 
     return false
-   
+
 }
 
 let $textoMayorSalario = document.querySelector("#mayor-salario")
@@ -58,57 +62,85 @@ $botonCalcular.onclick = function () {
 
     $inputsSalariosAnuales = document.querySelectorAll("input.visible")
 
-    if(document.querySelector("#error")){
-        document.querySelector("#error").remove();
-    }
-    
-    for (let i=0 ; i < $inputsSalariosAnuales.length; i++ ) {
+    quitarError();
 
-        if(($inputsSalariosAnuales[i].value) != 0){
+
+    if (!document.getElementsByTagName("label")) {
+        $botonCalcular.onclick = ""
+    }
+
+
+    for (let i = 0; i < $inputsSalariosAnuales.length; i++) {
+
+        if (($inputsSalariosAnuales[i].value) != 0) {
 
             acumulador = Number($inputsSalariosAnuales[i].value)
 
             arraySalariosAnuales.push(acumulador);
-        } 
+        }
 
-        if (($inputsSalariosAnuales[i].value) == 0){
+        if (($inputsSalariosAnuales[i].value) == 0) {
 
+            quitarError();
+            quitarCalculos();
             let $mensajeError = document.createElement("label")
-            $mensajeError.id ="error";
+
+            $mensajeError.id = "error";
+            $mensajeError.classList.add("alert", "alert-danger");
 
             $mensajeError.textContent = "No se puede ingresar valores en cero"
             $formulario.appendChild($mensajeError)
-            break;
+
         }
 
 
     }
 
-    if(!document.querySelector("#error")){
-    
-    $textoMayorSalario.textContent = `La persona que mejor salario tiene gana ${calcularMayorNumero (arraySalariosAnuales)} por año`
-    $textoMenorSalario.textContent = `La persona que peor salario tiene gana ${calcularMenorNumero (arraySalariosAnuales)} por año`
-    $textoPromedioSalarioAnual.textContent = `En promedio cada integrante gana ${calcularPromedio (arraySalariosAnuales)} por año`
-    $textoPromedioSalarioMensual.textContent = `En promedio cada integrante gana ${calcularPromedio (arraySalariosAnuales)/12} por mes`
+    if (!document.querySelector("#error")) {
+
+        $textoMayorSalario.textContent = `La persona que mejor salario tiene gana ${calcularMayorNumero(arraySalariosAnuales)} por año`
+        $textoMenorSalario.textContent = `La persona que peor salario tiene gana ${calcularMenorNumero(arraySalariosAnuales)} por año`
+        $textoPromedioSalarioAnual.textContent = `En promedio cada integrante gana ${calcularPromedio(arraySalariosAnuales)} por año`
+        $textoPromedioSalarioMensual.textContent = `En promedio cada integrante gana ${calcularPromedio(arraySalariosAnuales) / 12} por mes`
+
+        document.querySelectorAll(".calculos").forEach(elemento => {
+            elemento.classList.remove("invisible")
+
+        });
+
     }
     return false
 }
 
+function quitarError() {
+    if (document.querySelector("#error")) {
+        document.querySelector("#error").remove();
+    }
 
-function calcularPromedio (array){
-    
+}
+
+function quitarCalculos() {
+    if (document.querySelector(".calculos")) {
+        document.querySelectorAll(".calculos").forEach(elemento => { elemento.classList.add("invisible") })
+    }
+
+
+}
+
+function calcularPromedio(array) {
+
     let acumulador = 0
 
-    for (i=0 ; i< array.length ; i++){
+    for (i = 0; i < array.length; i++) {
         acumulador = acumulador + array[i]
     }
-    
+
     return acumulador / array.length
 }
 
-function calcularMayorNumero (array){
+function calcularMayorNumero(array) {
     let acumulador = array[0];
-    for  (i=0; i<array.length ; i++) {
+    for (i = 0; i < array.length; i++) {
         if (array[i] > acumulador) {
             acumulador = array[i]
         }
@@ -116,9 +148,9 @@ function calcularMayorNumero (array){
     return acumulador
 }
 
-function calcularMenorNumero (array) {
+function calcularMenorNumero(array) {
     let acumulador = array[0];
-    for  (i=0; i<array.length ; i++) {
+    for (i = 0; i < array.length; i++) {
 
         if (array[i] < acumulador) {
             acumulador = array[i]
